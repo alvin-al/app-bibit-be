@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "/home/alv-linux/app-bibit-be/src/generated/prisma",
+      "value": "/Users/alvinstuff/Code/app-bibit-be/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -31,12 +31,12 @@ const config: runtime.GetPrismaClientConfig = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/alv-linux/app-bibit-be/prisma/schema.prisma",
+    "sourceFilePath": "/Users/alvinstuff/Code/app-bibit-be/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
@@ -46,7 +46,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {

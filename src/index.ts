@@ -13,7 +13,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello backend");
 });
 
-//Filtering api/auth to authRoutes
+//Filtering api/auth route
 app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
