@@ -1,0 +1,30 @@
+# Dependency directories
+/node_modules
+
+# Logs
+npm-debug.log*
+.yarn-debug.log*
+.yarn-integrity
+
+# Build artifacts
+/dist
+/build
+/out
+
+# Environment variables
+.env
+.env.development
+.env.production
+.env.local
+
+# Editor and OS specific files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Test results
+/coverage
+
+# IDE specific files
+.idea/
+*.iml
