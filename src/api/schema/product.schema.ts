@@ -10,6 +10,9 @@ export const createProductSchema = z.object({
     .optional()
     .default(0),
   imageUrl: z.string().optional(),
+  age: z.string().nullable().optional(),
+  unit: z.string().optional().default("Pcs"),
+  specifications: z.record(z.string(), z.any()).nullable().optional(),
 });
 
 export const updateProductSchema = createProductSchema.partial();

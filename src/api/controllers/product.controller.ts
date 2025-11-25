@@ -13,8 +13,16 @@ const router: ReturnType<typeof Router> = Router();
 export const createProducts = async (req: Request, res: Response) => {
   try {
     //parsing body
-    const { name, description, price, stock, imageUrl } =
-      createProductSchema.parse(req.body);
+    const {
+      name,
+      description,
+      price,
+      stock,
+      imageUrl,
+      age,
+      specifications,
+      unit,
+    } = createProductSchema.parse(req.body);
 
     //get user id
     const userId = req.user!.userId;
@@ -23,11 +31,14 @@ export const createProducts = async (req: Request, res: Response) => {
     const newProducts = await prisma.product.create({
       data: {
         name: name,
-        description: description,
+        description: description ?? null,
         price: price,
         stock: stock,
         imageUrl: imageUrl ?? null,
         seller: { connect: { id: userId } },
+        age: age ?? null,
+        specifications: specifications ?? {},
+        unit: unit ?? "Pcs",
       },
     });
 

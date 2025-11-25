@@ -1,12 +1,12 @@
 generator client {
-  provider      = "prisma-client-js"
-  engineType    = "binary"
-  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl", "linux-musl-openssl-3.0.x"]
+  provider = "prisma-client-js"
+  // engineType    = "binary"
+  // binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -20,14 +20,18 @@ model User {
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  price       Int      @default(0)
-  stock       Int
-  imageUrl    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  sellerId    String
-  seller      User     @relation(fields: [sellerId], references: [id])
+  id             String   @id @default(cuid())
+  name           String
+  description    String?
+  price          Int      @default(0)
+  stock          Int
+  imageUrl       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  sellerId       String
+  seller         User     @relation(fields: [sellerId], references: [id])
+  age            String?
+  unit           String   @default("Pcs")
+  specifications Json?
+  varieties      String?
 }
