@@ -22,6 +22,7 @@ export const createProducts = async (req: Request, res: Response) => {
       age,
       specifications,
       unit,
+      varieties,
     } = createProductSchema.parse(req.body);
 
     //get user id
@@ -39,6 +40,7 @@ export const createProducts = async (req: Request, res: Response) => {
         age: age ?? null,
         specifications: specifications ?? {},
         unit: unit ?? "Pcs",
+        varieties: varieties ?? null,
       },
     });
 
