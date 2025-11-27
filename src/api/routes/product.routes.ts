@@ -6,10 +6,12 @@ import {
   updateProduct,
   deleteProduct,
   getSelectedProduct,
+  getPublicProducts,
 } from "../controllers/product.controller.js";
 
 const router: ReturnType<typeof Router> = Router();
 
+router.get("/public", getPublicProducts);
 router.get("/", authMiddleware, getMyProducts);
 router.get("/:id", authMiddleware, getSelectedProduct);
 router.post("/", authMiddleware, createProducts);

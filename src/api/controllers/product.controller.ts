@@ -13,17 +13,8 @@ const router: ReturnType<typeof Router> = Router();
 export const createProducts = async (req: Request, res: Response) => {
   try {
     //parsing body
-    const {
-      name,
-      description,
-      price,
-      stock,
-      imageUrl,
-      age,
-      specifications,
-      unit,
-      varieties,
-    } = createProductSchema.parse(req.body);
+    const { name, description, price, stock, imageUrl, age, unit, varieties } =
+      createProductSchema.parse(req.body);
 
     //get user id
     const userId = req.user!.userId;
@@ -38,7 +29,6 @@ export const createProducts = async (req: Request, res: Response) => {
         imageUrl: imageUrl ?? null,
         seller: { connect: { id: userId } },
         age: age ?? null,
-        specifications: specifications ?? {},
         unit: unit ?? "Pcs",
         varieties: varieties ?? null,
       },
@@ -184,5 +174,43 @@ export const deleteProduct = async (req: Request, res: Response) => {
     return res.status(500).json({
       message: "Server error",
     });
+  }
+};
+
+//get products public
+export const getPublicProducts = async (req: Request, res: Response) => {
+  try {
+    //get input filter
+    const { search } = req.query;
+
+    //query db
+    const products = await prisma.product.findMany({
+      where: {
+        ...(search
+          ? { name: { contains: String(search), mode: "insensitive" } }
+          : {}),
+        stock: { gt: 0 },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        seller: {
+          select: {
+            name: true,
+            email: true,
+            id: true,
+          },
+        },
+      },
+    });
+
+    //response
+    return res
+      .status(200)
+      .json({ message: "Success get public products", data: products });
+  } catch (error) {
+    console.error("Error get all product : ", error);
+    return res.status(500).json({ message: "An error occurred on the server" });
   }
 };

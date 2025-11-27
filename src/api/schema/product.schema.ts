@@ -10,9 +10,9 @@ export const createProductSchema = z.object({
     .optional()
     .default(0),
   imageUrl: z.string().optional(),
-  age: z.string().nullable().optional(),
-  unit: z.string().optional().default("Pcs"),
-  varieties: z.string().optional(),
+  age: z.string().min(1, "Umur harap diisi"),
+  unit: z.string().min(1, "Unit harap diisi"),
+  varieties: z.string().min(1, "Varietas harap diisi"),
 });
 
 export const updateProductSchema = createProductSchema.partial();

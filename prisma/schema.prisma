@@ -30,7 +30,7 @@ model Product {
   updatedAt   DateTime @updatedAt
   sellerId    String
   seller      User     @relation(fields: [sellerId], references: [id])
-  age         String?
+  age         String
   unit        String   @default("Pcs")
-  varieties   String?
+  varieties   String
 }
