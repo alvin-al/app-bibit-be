@@ -5,7 +5,9 @@ import productRoutes from "./api/routes/product.routes.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import multer from "multer";
-import path from "path";
+import path, { format } from "path";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config();
 const app = express();
@@ -25,13 +27,14 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 //upload file
-const storage = multer.diskStorage({
-  destination: (req: Request, file: Express.Multer.File, cb) => {
-    cb(null, "public/uploads");
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async (req, file) => {
+    return {
+      folder: "berbenih/products",
+      format: "jpeg",
+      public_id: file.fieldname + "-" + Date.now(),
+    };
   },
 });
 
@@ -46,12 +49,7 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "Tidak ada file yang diupload" });
   }
-
-  const fileUrl = `${req.protocol}://${req.get("host")}/uploads/${
-    req.file.filename
-  }`;
-
-  res.json({ message: "Upload berhasil", url: fileUrl });
+  res.json({ message: "Upload berhasil", url: req.file.path });
 });
 app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));
 
