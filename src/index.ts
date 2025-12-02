@@ -5,7 +5,6 @@ import productRoutes from "./api/routes/product.routes.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import multer from "multer";
-import path, { format } from "path";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -22,10 +21,6 @@ app.use(
   })
 );
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello backend");
-});
-
 //upload file
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
@@ -40,18 +35,25 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage: storage });
 
+// Hello backend
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello backend");
+});
+
 //Filtering route
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 
-//upload route
+// Post image
 app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ message: "Tidak ada file yang diupload" });
+    return res.status(400).json({ message: "No file uploaded" });
   }
-  res.json({ message: "Upload berhasil", url: req.file.path });
+  res.json({
+    message: "Upload success",
+    url: req.file.path,
+  });
 });
-app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
