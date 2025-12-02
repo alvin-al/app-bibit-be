@@ -214,3 +214,39 @@ export const getPublicProducts = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "An error occurred on the server" });
   }
 };
+
+//get products by id
+export const getPublicProductsById = async (req: Request, res: Response) => {
+  try {
+    //get input filter
+    const { id } = req.params;
+    if (!id) return;
+
+    //query db
+    const products = await prisma.product.findUnique({
+      where: { id },
+      include: {
+        seller: {
+          select: {
+            name: true,
+            email: true,
+            id: true,
+          },
+        },
+      },
+    });
+
+    //if not found
+    if (!products) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    //response
+    return res
+      .status(200)
+      .json({ message: "Success get public products detail", data: products });
+  } catch (error) {
+    console.error("Error get all product : ", error);
+    return res.status(500).json({ message: "An error occurred on the server" });
+  }
+};
